@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>网页转图片</title>
+    <style>
+    #img {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        opacity: 1;
+        transform: scale(0.8);
+        z-index: 99999999;
+        transition: transform 0.3s cubic-bezier(0.42, 0, 0.58, 1), opacity 0.3s cubic-bezier(0.42, 0, 0.58, 1), -webkit-transform 0.3s cubic-bezier(0.42, 0, 0.58, 1)
+    }
+    </style>
+    <script type="text/javascript" src="http://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+</head>
+
+<body>
+    <div id="capture" style="padding: 10px; background: #f5da55">
+        <h4 style="color: #000; ">Hello world!</h4>
+    </div>
+    <button id="btn">点击</button>
+    <img id="img" />
+    <script type="text/javascript">
+    var element = document.querySelector('body');
+    var image = document.querySelector('#img');
+
+    $('#btn').on('click', function() {
+        html2image(element, image);
+    })
+
+    function html2image(source, image) {
+        html2canvas(source).then(canvas => {
+            var imageData = canvas.toDataURL("image/png");
+            image.src = imageData;
+            // document.body.appendChild(canvas);
+            sessionStorage.setItem('imageSrc', imageData);
+        });
+    }
+
+    $.fn.longPress = function(fn) {
+        var timeout = undefined;
+        var $this = this;
+        for (var i = 0; i < $this.length; i++) {
+            $this[i].addEventListener('touchstart', function(event) {
+                timeout = setTimeout(fn, 2000); //长按时间超过2000ms，则执行传入的方法
+            }, false);
+            $this[i].addEventListener('touchend', function(event) {
+                clearTimeout(timeout); //长按时间少于2000ms，不会执行传入的方法
+            }, false);
+        }
+    }
+    $('body').longPress(function() {
+        html2image(element, image);
+    });
+    </script>
+</body>
+
+</html>
