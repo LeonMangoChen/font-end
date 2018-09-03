@@ -25,5 +25,14 @@
 	fn1();
 	fn2();
 
-* 开发环境配置
+* 开发环境配置 -babel
+> * 运行npm init   
+> * npm install --save-dev babel-core babel-preset-es2015 babel-preset-latest
+> * 创建.babelrc文件
+> * npm install --global babel-cli 
+> * babel -version 
+> * 创建 ./src/index.js
+> * 内容：[1,2,3].map(item => item + 1);
+> * 运行 babel ./src/index.js
+
 * 关于JS众多模块化标准
